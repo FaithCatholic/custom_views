@@ -1,0 +1,28 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function custom_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form['#id'] == 'views-exposed-form-parishes-page-1') {
+    $form['city'] = [];
+    $form['city']['#type'] = 'select';
+    $form['city']['#size']= NULL;
+    $form['city']['#options'][''] = t('All Cities');
+    $form['city']['#prefix'] = '<div class="limograde-search-city">';
+    $form['city']['#suffix'] = '</div>';
+    // Get list of all cities.
+    $query = db_select('directory__field_primary_address', 'loc');
+    $query->addField('loc', 'field_primary_address_locality', 'city');
+    $query->condition('loc.bundle', 'parishes', '=');
+    $query->distinct(TRUE);
+    $query->orderby('loc.field_primary_address_locality', 'ASC');
+    // Organize by state.
+    $states = [];
+    foreach ($query->execute() as $row) {
+      $form['city']['#options'][$row->city] = t($row->city);
+    }
+  }
+}

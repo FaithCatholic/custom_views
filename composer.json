@@ -1,0 +1,14 @@
+{
+  "name": "faithcatholic/custom_views",
+  "type": "drupal-module",
+  "description": "Provides extra features for views.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/custom_views",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/custom_views",
+    "source": "http://cgit.drupalcode.org/custom_views"
+  },
+  "require": { }
+}
