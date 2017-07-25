@@ -26,6 +26,9 @@ function custom_views_form_views_exposed_form_alter(&$form, FormStateInterface $
     elseif ($form['#id'] == 'views-exposed-form-schools-page-1') {
       $query->condition('loc.bundle', 'schools', '=');
     }
+    elseif ($form['#id'] == 'views-exposed-form-cemeteries-page-1') {
+      $query->condition('loc.bundle', 'cemeteries', '=');
+    }
     $query->distinct(TRUE);
     $query->orderby('loc.field_primary_address_locality', 'ASC');
     foreach ($query->execute() as $row) {
