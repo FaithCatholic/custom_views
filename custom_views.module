@@ -6,7 +6,11 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_form_FORM_ID_alter().
  */
 function custom_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
-  if ($form['#id'] == 'views-exposed-form-parishes-page-1' || $form['#id'] == 'views-exposed-form-schools-page-1') {
+  if (
+    $form['#id'] == 'views-exposed-form-parishes-page-1' ||
+    $form['#id'] == 'views-exposed-form-schools-page-1' ||
+    $form['#id'] == 'views-exposed-form-cemeteries-page-1'
+  ) {
     $form['city'] = [];
     $form['city']['#type'] = 'select';
     $form['city']['#size']= NULL;
