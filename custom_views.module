@@ -6,10 +6,14 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_form_FORM_ID_alter().
  */
 function custom_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
+  // dsm($form['#id']);
   if (
     $form['#id'] == 'views-exposed-form-parishes-page-1' ||
+    $form['#id'] == 'views-exposed-form-parishes-page-2' ||
     $form['#id'] == 'views-exposed-form-schools-page-1' ||
-    $form['#id'] == 'views-exposed-form-cemeteries-page-1'
+    $form['#id'] == 'views-exposed-form-schools-page-2' ||
+    $form['#id'] == 'views-exposed-form-cemeteries-page-1' ||
+    $form['#id'] == 'views-exposed-form-cemeteries-page-2'
   ) {
     $form['city'] = [];
     $form['city']['#type'] = 'select';
@@ -20,17 +24,29 @@ function custom_views_form_views_exposed_form_alter(&$form, FormStateInterface $
     // Get list of all cities.
     $query = db_select('directory__field_primary_address', 'loc');
     $query->addField('loc', 'field_primary_address_locality', 'city');
-    if ($form['#id'] == 'views-exposed-form-parishes-page-1') {
+
+    if (
+      $form['#id'] == 'views-exposed-form-parishes-page-1' ||
+      $form['#id'] == 'views-exposed-form-parishes-page-2'
+    ) {
       $query->condition('loc.bundle', 'parishes', '=');
     }
-    elseif ($form['#id'] == 'views-exposed-form-schools-page-1') {
+    elseif (
+      $form['#id'] == 'views-exposed-form-schools-page-1' ||
+      $form['#id'] == 'views-exposed-form-schools-page-2'
+    ) {
       $query->condition('loc.bundle', 'schools', '=');
     }
-    elseif ($form['#id'] == 'views-exposed-form-cemeteries-page-1') {
+    elseif (
+      $form['#id'] == 'views-exposed-form-cemeteries-page-1' ||
+      $form['#id'] == 'views-exposed-form-cemeteries-page-2'
+    ) {
       $query->condition('loc.bundle', 'cemeteries', '=');
     }
+
     $query->distinct(TRUE);
     $query->orderby('loc.field_primary_address_locality', 'ASC');
+
     foreach ($query->execute() as $row) {
       $form['city']['#options'][$row->city] = t($row->city);
     }
