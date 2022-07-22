@@ -1,7 +1,7 @@
 <?php
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_form_FORM_ID_alter().
